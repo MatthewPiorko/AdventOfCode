@@ -4,9 +4,10 @@ var fs = require("fs");
 function findPairSum(integers, sum) {
   let set = new Set();
 
-  for (let i of integers) set.add(sum - i);
   for (let i of integers) {
     if (set.has(i)) return i * (sum - i);
+    
+    set.add(sum - i);
   }
 
   return -1;

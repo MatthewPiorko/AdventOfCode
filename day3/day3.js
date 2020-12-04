@@ -8,12 +8,10 @@ function findHits(map, slideRight, slideDown) {
   let currentX = 0, currentY = 0, numHits = 0;
 
   while (currentY < map.length) {
-    // Map wraps, so need to find the y position on the repeated map
-    let wrappedX = (currentX) % (map[0].length);
-
-    if (map[currentY][wrappedX] == "#") numHits++;
+    if (map[currentY][currentX] == "#") numHits++;
     
-    currentX += slideRight;
+    // Map wraps, so need to find the x position on the repeated map
+    currentX = (currentX + slideRight) % (map[0].length);
     currentY += slideDown;
   }
 
