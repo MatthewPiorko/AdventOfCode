@@ -8,8 +8,7 @@ function computePartTwo(input) {
   return false;
 }
 
-fs.readFile('input.txt', function (err, data) {
-  let input = data.toString().split('\n').map(s => s.trim());
-  console.log(compute(input));
-  console.log(computePartTwo(input));
-});
+let input = fs.readFileSync('input.txt').toString().split('\n').map(s => s.trim());
+
+console.log(compute(input));
+console.log(computePartTwo(input));
