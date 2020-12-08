@@ -1,14 +1,14 @@
 var fs = require("fs");
 
-function compute(input) {
+function partOne(input) {
   return false;
 }
 
-function computePartTwo(input) {
+function partTwo(input) {
   return false;
 }
 
-let input = fs.readFileSync('input.txt').toString().split('\n').map(s => s.trim());
+let input = fs.readFileSync('input.txt').toString().split('\n');
 
-console.log(compute(input));
-console.log(computePartTwo(input));
+console.log(`Part one answer: ${partOne(input)}`);
+console.log(`Part two answer: ${computePartTwo(input)}`);
