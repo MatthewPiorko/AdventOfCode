@@ -1,4 +1,5 @@
 var fs = require("fs");
+var path = require("path");
 
 // Find two numbers that add to sum, and return their product
 function findPairSum(integers, sum) {
@@ -23,8 +24,12 @@ function findTripleSum(integers, sum) {
   return -1;
 }
 
-fs.readFile('input.txt', function (err, data) {
-  let input = data.toString().split('\n').map(Number);
-  console.log(findPairSum(input, 2020));
-  console.log(findTripleSum(input, 2020));
-});
+function main() {
+  fs.readFile(path.resolve(__dirname, 'input.txt'), function (err, data) {
+    let input = data.toString().split('\n').map(Number);
+    console.log(findPairSum(input, 2020));
+    console.log(findTripleSum(input, 2020));
+  });
+}
+
+module.exports = { main, findPairSum };

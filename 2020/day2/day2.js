@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
 
 function parseString(unparsedString) {
   let re = /(\d+)-(\d+) (\w+): (\w+)/;
@@ -37,9 +38,13 @@ function isValidSecondAlgorithm(unparsedString) {
   return false;
 }
 
-fs.readFile('input.txt', function (err, data) {
-  let input = data.toString().split('\n').map(isValid);
-  console.log(input.reduce((sum, num) => sum + num, 0));
-  let secondInput = data.toString().split('\n').map(isValidSecondAlgorithm);
-  console.log(secondInput.reduce((sum, num) => sum + num, 0));
-});
+function main() {
+  fs.readFile(path.resolve(__dirname, 'input.txt'), function (err, data) {
+    let input = data.toString().split('\n').map(isValid);
+    console.log(input.reduce((sum, num) => sum + num, 0));
+    let secondInput = data.toString().split('\n').map(isValidSecondAlgorithm);
+    console.log(secondInput.reduce((sum, num) => sum + num, 0));
+  });
+}
+
+module.exports = { main };

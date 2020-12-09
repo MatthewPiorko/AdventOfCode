@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
 
 const ROW_LETTER_TO_BINARY = { "F": 0, "B": 1 };
 const COLUMN_LETTER_TO_BINARY = { "L": 0, "R": 1 };
@@ -27,10 +28,14 @@ function findMissingSeatId(seatIds) {
   }
 }
 
-fs.readFile('input.txt', function (err, data) {
-  let input = data.toString().split('\n').map(s => s.trim());
-  let seatIds = input.map(computeSeatId);
+function main() {
+  fs.readFile(path.resolve(__dirname, 'input.txt'), function (err, data) {
+    let input = data.toString().split('\n').map(s => s.trim());
+    let seatIds = input.map(computeSeatId);
 
-  console.log(seatIds.reduce((acc, val) => Math.max(acc, val), 0));
-  console.log(findMissingSeatId(seatIds));
-});
+    console.log(seatIds.reduce((acc, val) => Math.max(acc, val), 0));
+    console.log(findMissingSeatId(seatIds));
+  });
+}
+
+module.exports = { main };

@@ -1,16 +1,19 @@
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
 
 const SHINY_GOLD_COLOR = "shiny gold";
 
-let input = fs.readFileSync('input.txt').toString().split('\n').map(s => s.trim());
+function main() {
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().split('\n').map(s => s.trim());
 
-let combinedBagMap = input.map(createBagPair)
-  .reduce((acc, val) => { acc[val[0]] = val[1]; return acc; }, {});
+  let combinedBagMap = input.map(createBagPair)
+    .reduce((acc, val) => { acc[val[0]] = val[1]; return acc; }, {});
 
-console.log(searchAllColorsForShinyGold(combinedBagMap));
+  console.log(searchAllColorsForShinyGold(combinedBagMap));
 
-// Remove one to not include the shiny gold bag itself
-console.log(countInnerBags(combinedBagMap, SHINY_GOLD_COLOR) - 1);
+  // Remove one to not include the shiny gold bag itself
+  console.log(countInnerBags(combinedBagMap, SHINY_GOLD_COLOR) - 1);
+}
 
 // Create a pair of [bag color, [count & color of each inner bag]] from a description of the bag
 function createBagPair(input) {
@@ -53,3 +56,5 @@ function countInnerBags(map, color) {
   // Add one to inside bags count to include this bag
   return totalInnerCount + 1;
 }
+
+module.exports = { main };

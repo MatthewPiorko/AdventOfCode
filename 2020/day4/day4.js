@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
 
 let requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
 let validEyeColors = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
@@ -46,14 +47,18 @@ function containsValidFields(input) {
   });
 }
 
-fs.readFile('input.txt', function (err, data) {
-  let input = data.toString().split('\n').map(s => s.trim());
+function main() {
+  fs.readFile(path.resolve(__dirname, 'input.txt'), function (err, data) {
+    let input = data.toString().split('\n').map(s => s.trim());
 
-  let numHaveRequiredFields = input.map(containsRequiredFields)
-    .reduce((acc, val) => acc + val, 0);
-  console.log(numHaveRequiredFields);
+    let numHaveRequiredFields = input.map(containsRequiredFields)
+      .reduce((acc, val) => acc + val, 0);
+    console.log(numHaveRequiredFields);
 
-  let numValid = input.map(str => containsRequiredFields(str) && containsValidFields(str))
-    .reduce((acc, val) => acc + val, 0);
-  console.log(numValid);
-});
+    let numValid = input.map(str => containsRequiredFields(str) && containsValidFields(str))
+      .reduce((acc, val) => acc + val, 0);
+    console.log(numValid);
+  });
+}
+
+module.exports = { main };
