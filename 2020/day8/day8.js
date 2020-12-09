@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
 
 // Parse the input into a list of [instruction type, instruction value]
 function parseInstructionList(input) {
@@ -71,7 +72,11 @@ function findTerminatingInstructionSet(input) {
   }
 }
 
-let input = fs.readFileSync('input.txt').toString().split('\n');
+function main() {
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().split('\n');
 
-console.log(`Part one answer: ${findAccumulatorAtTermination(input)}`);
-console.log(`Part two answer: ${findTerminatingInstructionSet(input)}`);
+  console.log(`Part one answer: ${findAccumulatorAtTermination(input)}`);
+  console.log(`Part two answer: ${findTerminatingInstructionSet(input)}`);
+}
+
+module.exports = { main };

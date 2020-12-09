@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const path = require("path");
 
 function countUniqueChars(combinedAnswers) {
   let charDictionary = {};
@@ -26,12 +27,16 @@ function countUniqueCharsInEveryAnswer(separatedAnswers) {
     .reduce((acc, val) => acc + val);
 }
 
-let input = fs.readFileSync('input.txt').toString().split('\n').map(str => str.trim());
-let uniqueChars = input.map(countUniqueChars).reduce((acc, val) => acc + val);
+function main() {
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().split('\n').map(str => str.trim());
+  let uniqueChars = input.map(countUniqueChars).reduce((acc, val) => acc + val);
 
-console.log(uniqueChars);
+  console.log(uniqueChars);
 
-input = fs.readFileSync('input2.txt').toString().split('\n').map(str => str.trim());
-let uniqueCommonChars = input.map(countUniqueCharsInEveryAnswer).reduce((acc, val) => acc + val);
+  input = fs.readFileSync(path.resolve(__dirname, 'input2.txt')).toString().split('\n').map(str => str.trim());
+  let uniqueCommonChars = input.map(countUniqueCharsInEveryAnswer).reduce((acc, val) => acc + val);
 
-console.log(uniqueCommonChars);
+  console.log(uniqueCommonChars);
+}
+
+module.exports = { main };

@@ -1,4 +1,5 @@
 var fs = require("fs");
+var path = require("path");
 
 // Find the number of trees (#) hit sliding down a toboggan going 3 right, 1 down
 // Map is a 1d array of the geology; ex: ["..##..", "#...#"]
@@ -18,13 +19,17 @@ function findHits(map, slideRight, slideDown) {
   return numHits;
 }
 
-fs.readFile('input.txt', function (err, data) {
-  let input = data.toString().split('\n').map(s => s.trim());
-  console.log(findHits(input, 3, 1));
+function main() {
+  fs.readFile(path.resolve(__dirname, 'input.txt'), function (err, data) {
+    let input = data.toString().split('\n').map(s => s.trim());
+    console.log(findHits(input, 3, 1));
 
-  let possibleSlopes = [[1,1], [3,1], [5,1], [7,1], [1,2]];
-  let answer = possibleSlopes.map(slope => findHits(input, slope[0], slope[1]))
-    .reduce((sum, moves) => sum * moves, 1);
+    let possibleSlopes = [[1,1], [3,1], [5,1], [7,1], [1,2]];
+    let answer = possibleSlopes.map(slope => findHits(input, slope[0], slope[1]))
+      .reduce((sum, moves) => sum * moves, 1);
 
-  console.log(answer);
-});
+    console.log(answer);
+  });
+}
+
+module.exports = { main };
