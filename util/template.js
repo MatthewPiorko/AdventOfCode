@@ -10,7 +10,7 @@ function partTwo(input) {
 }
 
 function main() {
-  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().split('\n');
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().split(/\r?\n/);
 
   console.log(`Part one answer: ${partOne(input)}`);
   console.log(`Part two answer: ${partTwo(input)}`);
