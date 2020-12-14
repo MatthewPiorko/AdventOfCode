@@ -39,6 +39,7 @@ function calculateStartingTimestamp(sortedTimes) {
   }
 
   let stepSize = firstNTimes.reduce((acc, [time, index]) => acc * time, 1);
+  console.log(stepSize);
   return [timestamp, stepSize];
 }
 
@@ -49,9 +50,7 @@ function calculateFirstSubsequentTime(input) {
 
   let [timestamp, stepSize] = calculateStartingTimestamp(sortedTimes);
 
-  while (true) {
-    if (sortedTimes.every(([time, index]) => isEvenlyDivisible(timestamp + index, time))) return timestamp;
-
+  while (!sortedTimes.every(([time, index]) => isEvenlyDivisible(timestamp + index, time))) {
     timestamp += stepSize;
   }
 
