@@ -47,6 +47,7 @@ class Operation {
 }
 
 function createOperation(str, instrs, iptr, relativeBase) {
+  // console.log(str);
   let paddedStr = str.padStart(5, "0");
   let [_, modes, opCode] = paddedStr.match(/(\d{3})(\d{2})/);
 
@@ -101,10 +102,10 @@ function parseParameters(instrs, modes, iptr, parameterNumber, relativeBase, par
   return parameters;
 }
 
-function runInstructions(sourceInstrs, inputs, debug = false) {
+function runInstructions(sourceInstrs, inputCallback, outputCallback, debug = false) {
   let iptr = 0;
   let outputs = [];
-  let instrs = sourceInstrs.slice();
+  let instrs = sourceInstrs;
   let relativeBase = 0;
 
   while (iptr < instrs.length) {
@@ -129,11 +130,10 @@ function runInstructions(sourceInstrs, inputs, debug = false) {
         instrs[p3] = String(p1 * p2);  
         break;
       case OpCodes.IN:
-        instrs[p1] = String(inputs[0]);
-        inputs = inputs.slice(1);
+        instrs[p1] = String(inputCallback());
         break;
       case OpCodes.OUT:
-        outputs.push(Number(p1));
+        outputCallback(Number(p1));
         break;
       // For jump instructions, jump below the actual instruction so that it is correct when it increments
       case OpCodes.JNZ:
@@ -163,4 +163,15 @@ function runInstructions(sourceInstrs, inputs, debug = false) {
   return "error; program ran beyond last instruction without halting";
 }
 
-module.exports = { runInstructions };
+function runInstructionsOnList(instrs, inputs, debug = false) {
+  let outputs = [];
+
+  let getInput = () => inputs.pop();
+  let output = (int) => outputs.push(int);
+
+  runInstructions(instrs, getInput, output, debug);
+
+  return outputs;
+}
+
+module.exports = { runInstructions, runInstructionsOnList };
