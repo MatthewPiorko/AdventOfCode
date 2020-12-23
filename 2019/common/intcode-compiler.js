@@ -47,7 +47,6 @@ class Operation {
 }
 
 function createOperation(str, instrs, iptr, relativeBase) {
-  // console.log(str);
   let paddedStr = str.padStart(5, "0");
   let [_, modes, opCode] = paddedStr.match(/(\d{3})(\d{2})/);
 
@@ -163,10 +162,12 @@ function runInstructions(sourceInstrs, inputCallback, outputCallback, debug = fa
   return "error; program ran beyond last instruction without halting";
 }
 
+// Run an instruction set on a constant list of inputs, returning a list of outputs
 function runInstructionsOnList(instrs, inputs, debug = false) {
   let outputs = [];
+  inputs = inputs.map(Number);
 
-  let getInput = () => inputs.pop();
+  let getInput = () => inputs.shift();
   let output = (int) => outputs.push(int);
 
   runInstructions(instrs, getInput, output, debug);
