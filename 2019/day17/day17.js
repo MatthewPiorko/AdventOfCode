@@ -225,6 +225,8 @@ function partTwo(instrs) {
   console.log(chain);
   console.log(chain.join(','));*/
 
+  // Determined by manual solving the output of the above chaining
+
   let main = 'C,A,C,A,B,A,B,C,A,B'.split('');
   let chainA = 'R,10,R,6,R,4'.split('');
   let chainB = 'R,4,L,12,R,6,L,12'.split('');
