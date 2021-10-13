@@ -162,6 +162,68 @@ function runInstructions(sourceInstrs, inputCallback, outputCallback, debug = fa
   return "error; program ran beyond last instruction without halting";
 }
 
+async function runInstructionsAsync(sourceInstrs, inputCallback, outputCallback, debug = false) {
+  let iptr = 0;
+  let outputs = [];
+  let instrs = sourceInstrs;
+  let relativeBase = 0;
+
+  while (iptr < instrs.length) {
+    let operation = createOperation(instrs[iptr], instrs, iptr, relativeBase);
+    let [p1, p2, p3] = operation.parameters;
+
+    if (debug) { 
+      console.log("-".repeat(10));
+      console.log(`Instruction Pointer: ${iptr}`);
+      console.log(operation);
+      console.log(`Relative Base: ${relativeBase}`);
+      console.log(`Raw Instruction: ${instrs[iptr]}`);
+      console.log(instrs.slice(iptr, iptr + 4).join(',')); 
+      console.log(outputs);
+    }
+
+    switch (operation.opCode) {
+      case OpCodes.ADD:
+        instrs[p3] = String(p1 + p2);  
+        break;
+      case OpCodes.MUL:
+        instrs[p3] = String(p1 * p2);  
+        break;
+      case OpCodes.IN:
+        let input = String(await inputCallback());
+        instrs[p1] = input;
+        break;
+      case OpCodes.OUT:
+        outputCallback(Number(p1));
+        break;
+      // For jump instructions, jump below the actual instruction so that it is correct when it increments
+      case OpCodes.JNZ:
+        if (p1 != 0) iptr = p2 - operation.length;
+        break;
+      case OpCodes.JEZ:
+        if (p1 == 0) iptr = p2 - operation.length;
+        break;
+      case OpCodes.TLT:
+        instrs[p3] = Number(p1 < p2);
+        break;
+      case OpCodes.TEQ:
+        instrs[p3] = Number(p1 == p2);
+        break;
+      case OpCodes.REL:
+        relativeBase += p1;
+        break;
+      case OpCodes.HLT:
+        return outputs;
+      default:
+        return `error; invalid opcode ${operation.opcode}`;
+    }
+
+    iptr += operation.length;
+  }
+
+  return "error; program ran beyond last instruction without halting";
+}
+
 // Run an instruction set on a constant list of inputs, returning a list of outputs
 function runInstructionsOnList(instrs, inputs, debug = false) {
   let outputs = [];
@@ -175,4 +237,4 @@ function runInstructionsOnList(instrs, inputs, debug = false) {
   return outputs;
 }
 
-module.exports = { runInstructions, runInstructionsOnList };
+module.exports = { runInstructions, runInstructionsOnList, runInstructionsAsync };
