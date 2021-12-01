@@ -9,14 +9,12 @@ function runRobot(instrs, input) {
 
   let getInput = () => {
     let nextInput = input.shift();
-    // console.log(`Inputting ${nextInput}`);
     return nextInput;
   }
 
   let out = "";
   let solution;
   let handleOutput = (intChar) => {
-    // console.log(intChar);
     if (intChar > 255) {
       solution = intChar;
     }
