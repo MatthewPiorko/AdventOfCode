@@ -4,7 +4,9 @@ const path = require("path");
 function partOne(input) {
   let numIncreased = 0;
   for (let i = 1; i < input.length; i++) {
-    if (input[i] > input[i - 1]) numIncreased++;
+    if ((input[i] > input[i - 1]) !== (Number(input[i]) > Number(input[i - 1]))) {
+      console.log(`${input[i]} > ${input[i - 1]}`);
+    }
   }
   return numIncreased;
 }
@@ -18,8 +20,7 @@ function partTwo(input) {
 }
 
 function main() {
-  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().trim().split(/\r?\n/).map(Number);
-  console.log(input);
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().trim().split(/\r?\n/);
 
   console.log(`Part one answer: ${partOne(input)}`);
   console.log(`Part two answer: ${partTwo(input)}`);
