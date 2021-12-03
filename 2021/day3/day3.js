@@ -39,8 +39,8 @@ function partTwo(input) {
   return oxygen * co2;
 }
 
-function main() {
-  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().trim().split(/\r?\n/).map(row => row.split("").map(Number));
+function main(file) {
+  let input = fs.readFileSync(path.resolve(__dirname, file)).toString().trim().split(/\r?\n/).map(row => row.split("").map(Number));
 
   console.log(`Part one answer: ${partOne(input)}`);
   console.log(`Part two answer: ${partTwo(input)}`);
