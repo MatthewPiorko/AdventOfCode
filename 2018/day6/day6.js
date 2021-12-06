@@ -1,42 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 
-function print2D(board) {
-  for (let y = 0; y < board.length; y++) {
-    let str = "";
-    for (let x = 0; x < board[y].length; x++) {
-      str += board[y][x];
-    }
-
-    console.log(str);
-  }
-
-  console.log("");
-}
-
-function blankBoard(x, y) {
-  return new Array(y).fill(0).map(row => new Array(x).fill(0));
-}
-
-function safeGet(board, x, y) {
-  if (y < 0 || y >= board.length) return 0;
-  if (x < 0 || x >= board[y].length) return 0;
-
-  return board[y][x];
-}
-
-function same2D(board1, board2) {
-  for (let y = 0; y < board1.length; y++) {
-    for (let x = 0; x < board1[y].length; x++) {
-      if (board1[y][x] !== board2[y][x]) {
-        return false;
-      }
-    }
-  }
-
-  return true;
-}
-
 function manhattenDistance(x, y, targetX, targetY) {
   return Math.abs(x - targetX) + Math.abs(y - targetY);
 }
