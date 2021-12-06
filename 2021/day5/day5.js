@@ -24,7 +24,7 @@ function parseLines(inputs) {
 }
 
 function incrementVents(board, line) {
-  let dist = Math.max(Math.abs(line.x2 - line.x1), Math.abs(line.y2 - line.y1)) + 1;
+  let dist = Math.max(Math.abs(line.x2 - line.x1), Math.abs(line.y2 - line.y1));
   let deltaX = compare(line.x1, line.x2), deltaY = compare(line.y1, line.y2);
 
   _.range(0, dist).forEach(i => {

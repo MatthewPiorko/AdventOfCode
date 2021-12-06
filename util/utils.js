@@ -1,14 +1,14 @@
 function range(start, stop, step = 1, initial = undefined) {
-	let len = Math.abs(stop - start);
+	let len = Math.abs(stop - start) + 1;
 
 	if (start > stop && step > 0) step *= -1;
 	if (start < stop && step < 0) step *= -1;
 
-	return Array(len).fill(0).map((val, idx) => initial || start + (idx * step));
+	return Array.from({ length: len }, (val, idx) => initial || start + (idx * step));
 }
 
 function arr2D(x, y, initial = undefined) {
-	return Array(y).fill(0).map(row => Array(x).fill(initial));
+	return Array.from({ length: y }, (val, idx) => Array.from({ length: x }, (val, idx) => initial));
 }
 
 function print2D(arr2D, sep = '') {

@@ -8,7 +8,7 @@ function replace(board, replace, replaceBy) {
   return board.map(row => row.map(val => val === replace ? replaceBy : val));
 }
 
-let hasVerticalBingo = board => _.range(0, board[0].length).some(x => board.every(row => row[x] === EMPTY));
+let hasVerticalBingo = board => _.range(0, board[0].length - 1).some(x => board.every(row => row[x] === EMPTY));
 let hasHorizontalBingo = board => board.some(row => row.every(val => val === EMPTY));
 let hasBingo = board => hasVerticalBingo(board) || hasHorizontalBingo(board);
 

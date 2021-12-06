@@ -33,7 +33,7 @@ function printMarbles(marble) {
 }
 
 function determineWinningScore(numPlayers, maxMarble) {
-  let scores = _.range(0, Number(numPlayers), 0);
+  let scores = _.range(0, Number(numPlayers) - 1, 0);
   
   let currentMarble = new LinkedMarble(0, undefined, undefined);
   currentMarble.prev = currentMarble;

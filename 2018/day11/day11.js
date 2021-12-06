@@ -22,12 +22,12 @@ function buildSumTable(serialNumber) {
   let grid = _.arr2D(301, 301, 0);
   let sumTable = _.arr2D(301, 301, 0);
 
-  _.range(1, 301).forEach(x =>
-    _.range(1, 301).forEach(y =>
+  _.range(1, 300).forEach(x =>
+    _.range(1, 300).forEach(y =>
       grid[y][x] = determinePowerLevel(x, y, serialNumber)));
 
-  _.range(1, 301).forEach(y =>
-    _.range(1, 301).forEach(x =>
+  _.range(1, 300).forEach(y =>
+    _.range(1, 300).forEach(x =>
       sumTable[y][x] = _.safeGet2D(grid, x - 1, y - 1, 0) + _.safeGet2D(sumTable, x - 1, y, 0) + _.safeGet2D(sumTable, x, y - 1, 0) - _.safeGet2D(sumTable, x - 1, y - 1, 0)));
 
   return sumTable;
@@ -44,8 +44,8 @@ function partOne(inputs) {
   let bestPower = -Infinity;
   let bestSpot = undefined;
 
-  _.range(1, 298).forEach(x =>
-    _.range(1, 298).forEach(y => {
+  _.range(1, 297).forEach(x =>
+    _.range(1, 297).forEach(y => {
       let localPower = determineLocalPower(sumTable, x, y);
       if (localPower > bestPower) {
         bestPower = localPower;
@@ -63,9 +63,9 @@ function partTwo(inputs) {
   let bestPower = -Infinity;
   let bestSpot = undefined;
 
-  _.range(1, 300).forEach(size => { 
-    _.range(1, 301 - size).forEach(x =>
-      _.range(1, 301 - size).forEach(y => {
+  _.range(1, 299).forEach(size => { 
+    _.range(1, 300 - size).forEach(x =>
+      _.range(1, 300 - size).forEach(y => {
         let localPower = determineLocalPower(sumTable, x, y, size);
         if (localPower > bestPower) {
           bestPower = localPower;
