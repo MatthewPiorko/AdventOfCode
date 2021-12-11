@@ -20,7 +20,7 @@ const SYNTAX_COST = {
   "]": 57,
   "}": 1197,
   ">": 25137
-}
+};
 
 // Find the [syntax error cost, remaining opens] after parsing the given str
 function attemptSyntaxParse(str) {
@@ -35,7 +35,7 @@ function attemptSyntaxParse(str) {
 }
 
 function partOne(inputs) {
-  return _.sum(inputs.map(input => attemptSyntaxParse(input)[0]).filter(val => val > 0));
+  return _.sum(inputs.map(input => attemptSyntaxParse(input)[0]).filter(val => val !== undefined));
 }
 
 const AUTOCOMPLETE_COST = {

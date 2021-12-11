@@ -8,15 +8,7 @@ let isLocalMin = (map, x, y) => ADJ.every(([deltaX,deltaY]) => _.safeGet2D(map, 
 
 function partOne(inputs) {
   let map = inputs.map(input => input.split('').map(Number));
-  let totalRisk = 0;
-
-  _.range(0, map.length - 1).forEach(y => {
-    _.range(0, map[y].length - 1).forEach(x => {
-      if (isLocalMin(map, x, y)) totalRisk += (map[y][x] + 1);
-    }
-  )});
-
-  return totalRisk;
+  return _.sum(map.map((row, y) => _.sum(row.map((val, x) => isLocalMin(map, x, y) ? val + 1 : 0))));
 }
 
 // Do a search from [startX, startY] to find connected points
