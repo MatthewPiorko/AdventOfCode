@@ -2,25 +2,15 @@ const fs = require("fs");
 const path = require("path");
 
 function partOne(input) {
-  let numIncreased = 0;
-  for (let i = 1; i < input.length; i++) {
-    if ((input[i] > input[i - 1]) !== (Number(input[i]) > Number(input[i - 1]))) {
-      console.log(`${input[i]} > ${input[i - 1]}`);
-    }
-  }
-  return numIncreased;
+  return input.filter((val, idx) => val > input[idx - 1]).length;
 }
 
 function partTwo(input) {
-  let numIncreased = 0;
-  for (let i = 3; i < input.length; i++) {
-    if (input[i] + input[i - 1] + input[i - 2] > input[i - 1] + input[i - 2] + input[i - 3]) numIncreased++;
-  }
-  return numIncreased;
+  return input.filter((val, idx) => val > input[idx - 3]).length;
 }
 
 function main() {
-  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().trim().split(/\r?\n/);
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().trim().split(/\r?\n/).map(Number);
 
   console.log(`Part one answer: ${partOne(input)}`);
   console.log(`Part two answer: ${partTwo(input)}`);
