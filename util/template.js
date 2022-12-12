@@ -13,8 +13,11 @@ function partTwo(inputs) {
 function main(file) {
   let inputs = fs.readFileSync(path.resolve(__dirname, file)).toString().trim().split(/\r?\n/);
 
-  console.log(`Part one answer: ${partOne(inputs)}`);
-  console.log(`Part two answer: ${partTwo(inputs)}`);
+  let partOneStart = performance.now();
+  console.log(`Part one answer: ${partOne(inputs)} (took ${(performance.now() - partOneStart).toFixed(0)}ms)`);
+
+  let partTwoStart = performance.now()
+  console.log(`Part two answer: ${partTwo(inputs)} (took ${(performance.now() - partTwoStart).toFixed(0)}ms)`);
 }
 
 module.exports = { main };
