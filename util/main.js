@@ -25,9 +25,10 @@ switch (args[0]) {
     fs.writeFileSync(`../${year}/${day}/input_example.txt`, `input_example.txt`);
     break;
   case 'run':
-    let file = args[3] === `-t` || args[3] === `--test` ? `input_example.txt` : `input.txt`;
+    let testMode = args[3] === `-t` || args[3] === `--test`;
+    let file = testMode ? `input_example.txt` : `input.txt`;
     const { main } = require(`../${year}/${day}/${day}.js`);
-    main(file);
+    main(file, testMode);
     break;
   default:
     console.log(`Unknown command {${args[0]}}`);
