@@ -62,5 +62,6 @@ function min(arr) {
 
 const ADJ = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 const ORTHOGONAL_ADJ = [[-1,0],[1,0],[0,-1],[0,1]];
+const ORTHOGONAL_ADJ_3D = [[-1,0,0],[1,0,0],[0,-1,0],[0,1,0],[0,0,-1],[0,0,1]];
 
-module.exports = { range, arr2D, arrEqual2D, print2D, map2D, safeGet2D, sum, product, sum2D, max, min, ADJ, ORTHOGONAL_ADJ };
+module.exports = { range, arr2D, arrEqual2D, print2D, map2D, safeGet2D, sum, product, sum2D, max, min, ADJ, ORTHOGONAL_ADJ, ORTHOGONAL_ADJ_3D };
