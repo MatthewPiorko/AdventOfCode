@@ -10,14 +10,18 @@ function partTwo(inputs, testMode) {
   return undefined;
 }
 
-function main(file, testMode) {
+function main(file, testMode, runPartOne, runPartTwo) {
   let inputs = fs.readFileSync(path.resolve(__dirname, file)).toString().trim().split(/\r?\n/);
 
-  let partOneStart = performance.now();
-  console.log(`Part one answer: ${partOne(inputs, testMode)} (took ${(performance.now() - partOneStart).toFixed(0)}ms)`);
+  if (runPartOne) {
+    let partOneStart = performance.now();
+    console.log(`Part one answer: ${partOne(inputs, testMode)} (took ${(performance.now() - partOneStart).toFixed(0)}ms)`);
+  }
 
-  let partTwoStart = performance.now()
-  console.log(`Part two answer: ${partTwo(inputs, testMode)} (took ${(performance.now() - partTwoStart).toFixed(0)}ms)`);
+  if (runPartTwo) {
+    let partTwoStart = performance.now()
+    console.log(`Part two answer: ${partTwo(inputs, testMode)} (took ${(performance.now() - partTwoStart).toFixed(0)}ms)`);
+  }
 }
 
 module.exports = { main };

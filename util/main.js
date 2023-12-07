@@ -25,10 +25,15 @@ switch (args[0]) {
     fs.writeFileSync(`../${year}/${day}/input_example.txt`, `input_example.txt`);
     break;
   case 'run':
-    let testMode = args[3] === `-t` || args[3] === `--test`;
+    let testMode = args.includes(`-t`) || args.includes(`--test`);
     let file = testMode ? `input_example.txt` : `input.txt`;
+
+    // run only the part specified, or both by default
+    let runPartOne = args.includes('-p1') || !args.includes('-p2');
+    let runPartTwo = args.includes('-p2') || !args.includes('-p1');
+
     const { main } = require(`../${year}/${day}/${day}.js`);
-    main(file, testMode);
+    main(file, testMode, runPartOne, runPartTwo);
     break;
   default:
     console.log(`Unknown command {${args[0]}}`);
