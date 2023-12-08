@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const _ = require('../../util/utils.js');
 
 class Moon {
   constructor(str) {
@@ -85,17 +86,7 @@ function determineLoopIteration(moons) {
     t++;
   }
 
-  return lcm(lcm(answer[0], answer[1]), answer[2]);
-}
-
-function gcd(a, b) {
-  if (b == 0) return a;
-
-  return gcd(b, a % b);
-}
-
-function lcm(a, b) {
-  return (a * b) / gcd(a, b);
+  return _.lcm(_.lcm(answer[0], answer[1]), answer[2]);
 }
 
 function main() {

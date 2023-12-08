@@ -1,18 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-
-const gcdCache = {};
-
-function gcd(a, b) {
-  if (gcdCache[[a,b]] != undefined) return gcdCache[[a,b]];
-  if (b == 0) { gcdCache[[a,b]] = a; return a; }
-
-  let result = gcd(b, a % b);
-
-  gcdCache[[a,b]] = result;
-
-  return result;
-}
+const _ = require('../../util/utils.js');
 
 function getAsteroids(asteroidMap) {
   let asteroids = [];
@@ -30,7 +18,7 @@ function canSeeAsteroid(y, x, asteroidY, asteroidX, asteroidMap) {
   let deltaX = Math.abs(x - asteroidX);
   let deltaY = Math.abs(y - asteroidY);
 
-  let slope = gcd(deltaX, deltaY);
+  let slope = _.gcd(deltaX, deltaY);
   let slopeX = x > asteroidX ? -slope : slope;
   let slopeY = y > asteroidY ? -slope : slope;
 

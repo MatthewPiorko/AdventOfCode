@@ -1,4 +1,5 @@
 let fs = require('fs');
+const path = require("path");
 
 const YEAR_REGEX = /20\d\d/;
 const DAY_REGEX = /day\d\d?/;
@@ -28,12 +29,30 @@ switch (args[0]) {
     let testMode = args.includes(`-t`) || args.includes(`--test`);
     let file = testMode ? `input_example.txt` : `input.txt`;
 
+    // run legacy solutions that export main, before ~2023 day 8
+    const { main } = require(`../${year}/${day}/${day}.js`);
+    if (main !== undefined) {
+      main(file, testMode);
+      break;
+    }
+
+    const { partOne, partTwo } = require(`../${year}/${day}/${day}.js`);
+    let inputs = fs.readFileSync(`../${year}/${day}/${file}`).toString().trim().split(/\r?\n/);
+
     // run only the part specified, or both by default
     let runPartOne = args.includes('-p1') || !args.includes('-p2');
     let runPartTwo = args.includes('-p2') || !args.includes('-p1');
 
-    const { main } = require(`../${year}/${day}/${day}.js`);
-    main(file, testMode, runPartOne, runPartTwo);
+    if (runPartOne) {
+      let partOneStart = performance.now();
+      console.log(`Part one answer: ${partOne(inputs, testMode)} (took ${(performance.now() - partOneStart).toFixed(0)}ms)`);
+    }
+
+    if (runPartTwo) {
+      let partTwoStart = performance.now()
+      console.log(`Part two answer: ${partTwo(inputs, testMode)} (took ${(performance.now() - partTwoStart).toFixed(0)}ms)`);
+    }
+
     break;
   default:
     console.log(`Unknown command {${args[0]}}`);
