@@ -27,7 +27,10 @@ async function main() {
       break;
     case 'run':
       let testMode = args.includes(`-t`) || args.includes(`--test`);
+
       let file = testMode ? `input_example.txt` : `input.txt`;
+      let filePath = `../${year}/${day}/${file}`;
+      if (!fs.existsSync(filePath)) await populateInput(year, day, filePath);
 
       // run legacy solutions that export main, before ~2023 day 8
       const { main } = require(`../${year}/${day}/${day}.js`);
@@ -36,8 +39,8 @@ async function main() {
         break;
       }
 
-      let inputs = await retrieveInputs(year, day, file);
       const { partOne, partTwo } = require(`../${year}/${day}/${day}.js`);
+      let inputs = fs.readFileSync(filePath).toString().trim().split(/\r?\n/);
 
       // run only the part specified, or both by default
       let runPartOne = args.includes('-p1') || !args.includes('-p2');
@@ -60,36 +63,33 @@ async function main() {
   }
 }
 
-async function retrieveInputs(year, day, file) {
-  let inputFile = `../${year}/${day}/${file}`;
-  let inputs = fs.existsSync(inputFile) ? fs.readFileSync(inputFile).toString() : undefined;
-  let dayNumber = Number(day.substring(3));
+async function populateInput(year, day, file) {
+  console.log(`Input not provided, fetching it instead`);
+  let dayNumber = Number(day.substring(3)); //to handle "01" parsing to "1"
 
-  // fetch the input if it's not already provided
-  // AOC session cookie must be provided in the environment variables
-  if (!inputs && process.env.AOC_SESSION !== undefined && Date.now() > Date.parse(`${year}-12-${dayNumber} GMT-5`)) {
-    console.log(`Input not provided, fetching it instead`);
-
-    let response = await fetch(`https://adventofcode.com/${year}/day/${dayNumber}/input`, {
-      headers: {
-        Cookie: `session=${process.env.AOC_SESSION}`
-      }});
-    inputs = await response.text();
-
-    if (!response.ok) {
-      console.log(`Unable to fetch inputs due to {${response.status} ${response.statusText}}:`);
-      console.log(inputs);
-      process.exit();
-    }
-
-    // cache it so it isn't re-queried later
-    fs.writeFileSync(`../${year}/${day}/${file}`, inputs);
-  } else if (!inputs) {
-    console.log(`No input.txt file provided`);
+  if (!process.env.AOC_SESSION) {
+    console.log(`No AOC session token was found in environment variables`);
+    process.exit();
+  }
+  if (Date.now() < Date.parse(`${year}-12-${dayNumber} GMT-5`)) {
+    console.log(`AOC input is not available until midnight EST`);
     process.exit();
   }
 
-  return inputs.trim().split(/\r?\n/);
+  let response = await fetch(`https://adventofcode.com/${year}/day/${dayNumber}/input`, {
+    headers: {
+      Cookie: `session=${process.env.AOC_SESSION}`
+    }});
+  inputs = await response.text();
+
+  if (!response.ok) {
+    console.log(`Unable to fetch inputs due to {${response.status} ${response.statusText}}:`);
+    console.log(inputs);
+    process.exit();
+  }
+
+  // cache it so it isn't re-queried later
+  fs.writeFileSync(file, inputs);
 }
 
 main();
