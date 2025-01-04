@@ -70,8 +70,26 @@ function lcm(a, b) {
   return (a * b) / gcd(a, b);
 }
 
+// can do modulo on negative numbers, from https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers
+function safeMod(n, mod) {
+  return ((n % mod) + mod) % mod;
+}
+
+function find2D(grid, obj) {
+  for (let y = 0; y < grid.length; y++) {
+    for (let x = 0; x < grid[y].length; x++) {
+      if (grid[y][x] === obj) return [x, y];
+    }
+  }
+
+  return undefined;
+}
+
 const ADJ = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 const ORTHOGONAL_ADJ = [[-1,0],[1,0],[0,-1],[0,1]];
 const ORTHOGONAL_ADJ_3D = [[-1,0,0],[1,0,0],[0,-1,0],[0,1,0],[0,0,-1],[0,0,1]];
 
-module.exports = { range, arr2D, arrEqual2D, print2D, map2D, safeGet2D, sum, product, sum2D, max, min, gcd, lcm, ADJ, ORTHOGONAL_ADJ, ORTHOGONAL_ADJ_3D };
+module.exports = { 
+  range, arr2D, arrEqual2D, print2D, map2D, safeGet2D, sum, product, sum2D, 
+  max, min, gcd, lcm, safeMod, find2D,
+  ADJ, ORTHOGONAL_ADJ, ORTHOGONAL_ADJ_3D };
