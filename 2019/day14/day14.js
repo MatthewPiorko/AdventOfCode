@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const _ = require('../../util/utils.js');
 
 class Reaction {
   constructor(inputs, output) {
@@ -12,7 +13,7 @@ function parseInput(input) {
   let reactionMap = {};
   let ingredients = {};
 
-  for (line of input) {
+  for (let line of input) {
     let [, inputs, output] = line.match(/(.*) => (.*)/);
     let [, outputAmount, outputIngredient] = output.match(/(\d+) (.*)/);
     inputs = inputs.split(",");
@@ -56,28 +57,18 @@ function oreRequired(reactionMap, originalIngredients, startingFuel) {
   return ingredients["ORE"];
 }
 
-// Search for the first value that returns truthy on the given function
-function binarySearch(low, high, func) {
-  if (low == high) return low;
-
-  let fuelToTest = Math.floor((low + high) / 2);
-
-  if (func(fuelToTest)) return binarySearch(low, fuelToTest, func);
-  else return binarySearch(fuelToTest, high - 1, func);
-}
-
 // Determine the maximum FUEL that can be made with the available ORE
 function maxFuelMade(reactionMap, ingredients, availableOre) {
   let highest = 1;
   while (oreRequired(reactionMap, ingredients, highest) < availableOre) highest *= 2;
 
-  let hasEnoughFuel = (n) => oreRequired(reactionMap, ingredients, n) > availableOre;
+  let hasInsufficientFuel = (n) => oreRequired(reactionMap, ingredients, n) > availableOre;
 
-  return binarySearch(0, highest, hasEnoughFuel);
+  return _.binarySearch(0, highest, hasInsufficientFuel) - 1;
 }
 
 function main() {
-  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().split(/\r?\n/);
+  let input = fs.readFileSync(path.resolve(__dirname, 'input.txt')).toString().trim().split(/\r?\n/);
   let [reactionMap, ingredients] = parseInput(input);
 
   console.log(`Part one answer: ${oreRequired(reactionMap, ingredients, 1)}`);

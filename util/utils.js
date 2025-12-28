@@ -89,7 +89,19 @@ const ADJ = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
 const ORTHOGONAL_ADJ = [[-1,0],[1,0],[0,-1],[0,1]];
 const ORTHOGONAL_ADJ_3D = [[-1,0,0],[1,0,0],[0,-1,0],[0,1,0],[0,0,-1],[0,0,1]];
 
+// return the first value between min & max that returns truthy
+function binarySearch(min, max, func) {
+  if (min === max) return min;
+
+  let middle = Math.floor((max + min) / 2);
+  let isValid = func(middle);
+
+  if (isValid) return binarySearch(min, middle, func);
+  else return binarySearch(middle + 1, max, func);
+}
+
 module.exports = { 
   range, arr2D, arrEqual2D, print2D, map2D, safeGet2D, sum, product, sum2D, 
   max, min, gcd, lcm, safeMod, find2D,
-  ADJ, ORTHOGONAL_ADJ, ORTHOGONAL_ADJ_3D };
+  ADJ, ORTHOGONAL_ADJ, ORTHOGONAL_ADJ_3D,
+  binarySearch };
