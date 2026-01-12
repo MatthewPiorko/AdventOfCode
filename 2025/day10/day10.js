@@ -92,6 +92,7 @@ function partTwo(inputs, testMode) {
 }
 
 function solveLinearAlgebra([desiredToggles, buttons, desiredJoltage]) {
+  // set up system of equations
   let matrix = _.arr2D(buttons.length, desiredJoltage.length, 0);
   for (let y = 0; y < matrix.length; y++) {
     for (let x = 0; x < matrix[y].length; x++) {
@@ -103,7 +104,7 @@ function solveLinearAlgebra([desiredToggles, buttons, desiredJoltage]) {
   let reduced = gaussJordanElimination(matrix);
 
   if (isInReducedRowEchelonForm(reduced)) {
-    let lastColumn = reduced.map(row => row.pop(-1).toNumber());
+    let lastColumn = reduced.map(row => row.at(-1).toNumber());
 
     // if some button needs to be pressed a negative number of times, or partial number of times, ignore it
     // this only happens when exploring free variables
@@ -111,7 +112,7 @@ function solveLinearAlgebra([desiredToggles, buttons, desiredJoltage]) {
     if (lastColumn.some(x => Math.ceil(x) !== Math.floor(x))) return +Infinity;
 
     return _.sum(lastColumn);
-  } 
+  }
 
   // if it's not fully reduced, need to find the right values for the free variables
   // brute force all possible values
@@ -124,13 +125,9 @@ function solveLinearAlgebra([desiredToggles, buttons, desiredJoltage]) {
     let newButtons = [...buttons.slice(0, freeVariable), ...buttons.slice(freeVariable + 1)];
     let newDesiredJoltage = desiredJoltage.map(i => i);
 
-    let isInvalid = false;
-    for (let index of buttons[freeVariable]) {
-      newDesiredJoltage[index] -= value;
-      if (newDesiredJoltage[index] < 0) isInvalid = true;
-      if (Math.floor(newDesiredJoltage[index]) !== Math.ceil(newDesiredJoltage[index])) isInvalid = true;
-    }
-    if (isInvalid) continue;
+    for (let index of buttons[freeVariable]) newDesiredJoltage[index] -= value;
+
+    if (newDesiredJoltage.some(i => i < 0 || Math.floor(i) !== Math.ceil(i))) continue;
 
     bestSolution = Math.min(bestSolution, value + solveLinearAlgebra([desiredToggles, newButtons, newDesiredJoltage]));
   }
