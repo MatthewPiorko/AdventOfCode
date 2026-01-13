@@ -100,8 +100,17 @@ function binarySearch(min, max, func) {
   else return binarySearch(middle + 1, max, func);
 }
 
+function cachedFunction(func, keyGenerator, cache, ...params) {
+  let key = keyGenerator(...params);
+  if (cache[key] !== undefined) return cache[key];
+
+  let val = func(...params);
+  cache[key] = val;
+  return val;
+}
+
 module.exports = { 
   range, arr2D, arrEqual2D, print2D, map2D, safeGet2D, sum, product, sum2D, 
   max, min, gcd, lcm, safeMod, find2D,
   ADJ, ORTHOGONAL_ADJ, ORTHOGONAL_ADJ_3D,
-  binarySearch };
+  binarySearch, cachedFunction };

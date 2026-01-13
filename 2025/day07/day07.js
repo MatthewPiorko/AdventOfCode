@@ -41,15 +41,6 @@ function partTwo(inputs, testMode) {
   return numTimelines(grid, start);
 }
 
-function cachedFunction(func, keyGenerator, cache, ...params) {
-  let key = keyGenerator(...params);
-  if (cache[key] !== undefined) return cache[key];
-
-  let val = func(...params);
-  cache[key] = val;
-  return val;
-}
-
 function uncachedNumTimelines(grid, [x, y]) {
   if (y > grid.length - 1) return 1;
 
@@ -62,6 +53,6 @@ function uncachedNumTimelines(grid, [x, y]) {
 }
 
 let timelinesCache = {};
-let numTimelines = (grid, [x, y]) => cachedFunction(uncachedNumTimelines, (grid, [x, y]) => `${x},${y}`, timelinesCache, grid, [x, y]);
+let numTimelines = (grid, [x, y]) => _.cachedFunction(uncachedNumTimelines, (grid, [x, y]) => `${x},${y}`, timelinesCache, grid, [x, y]);
 
 module.exports = { partOne, partTwo };
